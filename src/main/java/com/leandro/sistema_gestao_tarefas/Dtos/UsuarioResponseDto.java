@@ -2,6 +2,8 @@ package com.leandro.sistema_gestao_tarefas.Dtos;
 
 import com.leandro.sistema_gestao_tarefas.model.Endereco;
 
+import java.time.LocalDate;
+
 public class UsuarioResponseDto {
     private Long id;
     private String nome;
@@ -9,6 +11,8 @@ public class UsuarioResponseDto {
     private Integer idade;
     private String telefone;
     private Endereco endereco;
+    private LocalDate dataNascimento;
+
 
     public UsuarioResponseDto() {
     }
@@ -68,6 +72,14 @@ public class UsuarioResponseDto {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     @Override

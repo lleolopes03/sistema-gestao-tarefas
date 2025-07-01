@@ -14,13 +14,15 @@ public class UsuarioMapper {
     private static final ModelMapper mapper = new ModelMapper();
 
     static {
-
         PropertyMap<Usuario, UsuarioResponseDto> props = new PropertyMap<>() {
             @Override
             protected void configure() {
+                map().setId(source.getId());
                 map().setIdade(source.getIdade());
+                map().setDataNascimento(source.getDataNascimento());
             }
         };
+
         mapper.addMappings(props);
     }
 
@@ -37,5 +39,4 @@ public class UsuarioMapper {
                 .map(UsuarioMapper::toDto)
                 .collect(Collectors.toList());
     }
-
 }

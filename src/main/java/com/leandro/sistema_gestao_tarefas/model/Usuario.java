@@ -15,18 +15,35 @@ public class Usuario implements Serializable {
     private Long id;
     private String nome;
     private String email;
-
     private String telefone;
     @Embedded
     private Endereco endereco;
     private LocalDate dataNascimento;
 
     @Transient
-    public int getIdade() {
+    public Integer getIdade() {
+        if (this.dataNascimento == null) return null;
         return Period.between(this.dataNascimento, LocalDate.now()).getYears();
     }
 
+
+
     public Usuario() {
+    }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     public String getNome() {
