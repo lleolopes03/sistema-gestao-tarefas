@@ -3,6 +3,8 @@ package com.leandro.sistema_gestao_tarefas.model;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 @Entity
@@ -13,10 +15,16 @@ public class Usuario implements Serializable {
     private Long id;
     private String nome;
     private String email;
-    private Integer idade;
+
     private String telefone;
     @Embedded
     private Endereco endereco;
+    private LocalDate dataNascimento;
+
+    @Transient
+    public int getIdade() {
+        return Period.between(this.dataNascimento, LocalDate.now()).getYears();
+    }
 
     public Usuario() {
     }
@@ -37,13 +45,7 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
-    public Integer getIdade() {
-        return idade;
-    }
 
-    public void setIdade(Integer idade) {
-        this.idade = idade;
-    }
 
     public String getTelefone() {
         return telefone;
@@ -78,7 +80,6 @@ public class Usuario implements Serializable {
                 "id=" + id +
                 ", nome='" + nome + '\'' +
                 ", email='" + email + '\'' +
-                ", idade=" + idade +
                 ", telefone='" + telefone + '\'' +
                 ", endereco=" + endereco +
                 '}';

@@ -6,14 +6,21 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.time.LocalDate;
+
 public class UsuarioCreateDto {
     @NotBlank
     private String nome;
+
+
+
     @NotBlank
     @Email(message = "formato do e-mail está inválido",regexp = "^[a-z0-9.+-]+@[a-z0-9.-]+\\.[a-z]{2,}$")
     private String email;
-    @NotNull
-    private Integer idade;
+    @NotNull(message = "A data de nascimento é obrigatória")
+    private LocalDate dataNascimento;
+
+
     @NotBlank
     @Pattern(regexp = "\\(\\d{2}\\)\\s?\\d{4,5}-\\d{4}", message = "formato do telefone inválido")
     private String telefone;
@@ -38,14 +45,15 @@ public class UsuarioCreateDto {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public Integer getIdade() {
-        return idade;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
 
-    public void setIdade(Integer idade) {
-        this.idade = idade;
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
+
+
 
     public String getTelefone() {
         return telefone;
