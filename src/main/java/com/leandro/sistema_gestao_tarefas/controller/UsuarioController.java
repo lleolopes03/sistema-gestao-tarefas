@@ -21,7 +21,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioResponseDto>create(@RequestBody @Valid UsuarioCreateDto createDto){
         UsuarioResponseDto responseDto=usuarioService.salvar(createDto);
-        URI location = URI.create("/usuarios/" + responseDto.getId()); // 👈 precisa disso aqui!
+        URI location = URI.create("/usuarios/" + responseDto.getId());
         return ResponseEntity.created(location).body(responseDto);
 
 
