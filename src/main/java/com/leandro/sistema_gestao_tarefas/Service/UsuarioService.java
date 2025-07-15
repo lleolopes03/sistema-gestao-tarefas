@@ -6,6 +6,8 @@ import com.leandro.sistema_gestao_tarefas.Dtos.UsuarioResponseDto;
 import com.leandro.sistema_gestao_tarefas.exception.BusinessException;
 import com.leandro.sistema_gestao_tarefas.model.Usuario;
 import com.leandro.sistema_gestao_tarefas.repositories.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,9 +46,26 @@ public class UsuarioService {
         usuario.setEmail(createDto.getEmail());
         usuario.setTelefone(createDto.getTelefone());
         usuario.setEndereco(createDto.getEndereco());
+        usuario.setUsername(createDto.getUsername());
+        usuario.setRole(createDto.getRole());
 
         Usuario atualizado = usuarioRepository.save(usuario);
         return UsuarioMapper.toDto(atualizado);
+    }
+    @Transactional
+    public Usuario buscarPorUsername(String username){
+        return usuarioRepository.findByUsername(username).orElseThrow(
+                ()->new EntityNotFoundException(String.format("Usuario com 'username' não encontrado",username))
+        );
+    }
+    @Transactional
+    public Usuario.Role buscarRolePorUsername(String username) {
+        return usuarioRepository.findRoleByUsername(username);
+    }
+    public Long buscarIdPorUsername(String username) {
+        Usuario usuario = usuarioRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado: " + username));
+        return usuario.getId();
     }
 
 

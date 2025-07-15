@@ -1,6 +1,7 @@
 package com.leandro.sistema_gestao_tarefas.Dtos;
 
 import com.leandro.sistema_gestao_tarefas.model.Endereco;
+import com.leandro.sistema_gestao_tarefas.model.Usuario;
 
 import java.time.LocalDate;
 
@@ -12,18 +13,25 @@ public class UsuarioResponseDto {
     private String telefone;
     private Endereco endereco;
     private LocalDate dataNascimento;
+    private String username;
+    private Usuario.Role role = Usuario.Role.USUARIO;
+
+
 
 
     public UsuarioResponseDto() {
     }
 
-    public UsuarioResponseDto(Long id, String nome, String email, Integer idade, String telefone, Endereco endereco) {
+    public UsuarioResponseDto(Long id, String nome, String email, Integer idade, String telefone, LocalDate dataNascimento, Endereco endereco, String username, Usuario.Role role) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.idade = idade;
         this.telefone = telefone;
+        this.dataNascimento = dataNascimento;
         this.endereco = endereco;
+        this.username = username;
+        this.role = role;
     }
 
     public Long getId() {
@@ -82,6 +90,22 @@ public class UsuarioResponseDto {
         this.dataNascimento = dataNascimento;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Usuario.Role getRole() {
+        return role;
+    }
+
+    public void setRole(Usuario.Role role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "UsuarioResponseDto{" +
@@ -91,6 +115,9 @@ public class UsuarioResponseDto {
                 ", idade=" + idade +
                 ", telefone='" + telefone + '\'' +
                 ", endereco=" + endereco +
+                ", dataNascimento=" + dataNascimento +
+                ", username='" + username + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

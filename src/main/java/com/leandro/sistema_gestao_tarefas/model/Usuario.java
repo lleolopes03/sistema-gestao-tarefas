@@ -1,5 +1,6 @@
 package com.leandro.sistema_gestao_tarefas.model;
 
+
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -19,6 +20,14 @@ public class Usuario implements Serializable {
     @Embedded
     private Endereco endereco;
     private LocalDate dataNascimento;
+    private String username;
+    private Role role = Role.USUARIO;
+    public enum Role {
+        ADMIN,
+        USUARIO
+    }
+
+    private String password;
 
     @Transient
     public Integer getIdade() {
@@ -30,6 +39,18 @@ public class Usuario implements Serializable {
 
     public Usuario() {
     }
+
+    public Usuario(Long id, String nome, String email, String telefone, Endereco endereco, LocalDate dataNascimento, String username, String password) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.dataNascimento = dataNascimento;
+        this.username = username;
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
@@ -78,6 +99,34 @@ public class Usuario implements Serializable {
 
     public void setEndereco(Endereco endereco) {
         this.endereco = endereco;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public Role getRole() {
+        return role;
+    }
+
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+
+
+
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
