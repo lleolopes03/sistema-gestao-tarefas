@@ -1,6 +1,6 @@
-# 📋 Sistema de Gestão de Tarefas
+# ✅ Sistema de Gestão de Tarefas com Spring Boot
 
-Este é um projeto Java desenvolvido com Spring Boot que oferece funcionalidades completas para o gerenciamento de tarefas e cadastro de usuários. O sistema também realiza a integração automática de endereços via **API ViaCEP**, aplicando boas práticas como DTOs, validações, tratamento de exceções e arquitetura multicamada.
+Este projeto é uma aplicação Java desenvolvida com Spring Boot que oferece funcionalidades completas para gerenciamento de tarefas e cadastro de usuários. A aplicação conta com integração automática de endereços via API ViaCEP, autenticação segura com JWT, arquitetura limpa, documentação Swagger e práticas avançadas de desenvolvimento.
 
 ---
 
@@ -13,6 +13,8 @@ Este é um projeto Java desenvolvido com Spring Boot que oferece funcionalidades
 - Bean Validation (Jakarta)
 - ModelMapper
 - API ViaCEP
+- Spring Security + JWT
+- Swagger/OpenAPI
 - Git + GitHub
 - IntelliJ IDEA
 
@@ -21,25 +23,36 @@ Este é um projeto Java desenvolvido com Spring Boot que oferece funcionalidades
 ## 📦 Funcionalidades
 
 ### 👤 Módulo Usuários
-- ✅ Cadastro com validações
-- ✅ Consulta, edição e deleção
-- ✅ Integração automática com ViaCEP para preenchimento de endereço
+- Cadastro, consulta, edição e remoção de usuários
+- Validação automática de endereço via consulta ao ViaCEP
+- Cálculo de idade baseado na data de nascimento
+- Criação de usuários com autenticação JWT e controle de acesso por `role`
 
-### ✅ Módulo Tarefas
-- ✅ Cadastro com campos como nome, descrição, prazo, prioridade e categoria
-- ✅ Edição completa e atualização de status com controle de data de conclusão
-- ✅ Listagem, busca por ID e exclusão
-- ✅ Endpoint dedicado para alteração de status sem necessidade de DTO completo
+### 📋 Módulo Tarefas
+- Criação de tarefas com descrição, categoria, prioridade e prazo
+- Listagem geral ou busca por ID
+- Edição completa ou apenas alteração de status
+- Exclusão de tarefas com retorno de status HTTP apropriado
 
-### ⚙️ Estrutura Técnica
-- Arquitetura organizada com camadas: DTOs, Models, Mappers, Services e Controllers
-- Validações e exceções customizadas com mensagens personalizadas
-- Documentação completa via Swagger/OpenAPI
+### 🔐 Autenticação e Segurança
+- Autenticação via login utilizando `username` e `password`
+- Geração de tokens JWT com dados de usuário e role
+- Filtro de autorização para proteger rotas privadas
+- Customização do ponto de entrada não autorizado (HTTP 401)
+- Proteção de rotas específicas com base em perfil (`ADMIN`, `USUARIO`)
+
+### 📚 Documentação Técnica
+- Swagger UI para visualização e teste dos endpoints
+- Inclusão de esquema de segurança JWT no Swagger
+- Descrições e respostas documentadas por operação
 
 ---
 
-## 📚 Documentação
+## 🧪 Testes
 
-A API está documentada com Swagger UI e pode ser acessada via:
-http://localhost:8080/swagger-ui.html
+- Testes manuais via Swagger UI para fluxo completo (CRUD, autenticação, consulta de CEP)
+- Planejamento de testes automatizados com JUnit e Spring Boot Test (em andamento)
+
+
+
 
