@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -32,6 +33,7 @@ public class TarefaController {
 
     })
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USUARIO')")
     public ResponseEntity<TarefaResponseDto>criarTarefa(@RequestBody @Valid TarefaCreateDto createDto){
         TarefaResponseDto responseDto=tarefaService.salvar(createDto);
         URI location = URI.create("api/v1/tarefas/" + responseDto.getId());
@@ -47,6 +49,7 @@ public class TarefaController {
 
     })
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @tarefaService.isDonoDaTarefa(#id)")
     public ResponseEntity<TarefaResponseDto>buscarPorId(@PathVariable Long id){
         TarefaResponseDto responseDto=tarefaService.buscarPorId(id);
         return ResponseEntity.ok(responseDto);
@@ -61,6 +64,7 @@ public class TarefaController {
 
     })
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<List<TarefaResponseDto>>buscarTodos(){
         List<TarefaResponseDto>responseDtos=tarefaService.buscarTodos();
         return ResponseEntity.ok(responseDtos);
@@ -75,6 +79,7 @@ public class TarefaController {
 
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @tarefaService.isDonoDaTarefa(#id)")
     public ResponseEntity<Void>deletar(@PathVariable Long id){
         tarefaService.deletar(id);
         return ResponseEntity.noContent().build();
@@ -89,6 +94,7 @@ public class TarefaController {
 
     })
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('USUARIO') and @tarefaService.isDonoDaTarefa(#id))")
     public ResponseEntity<TarefaResponseDto>editarTarefas(@PathVariable Long id,@RequestBody @Valid TarefaCreateDto createDto){
         TarefaResponseDto responseDto=tarefaService.editarTarefa(id,createDto);
         return ResponseEntity.ok(responseDto);

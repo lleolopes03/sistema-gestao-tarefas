@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -29,7 +30,9 @@ public class UsuarioController {
             @ApiResponse(responseCode = "201",description = "Usuario cadastrado com sucesso"),
 
     })
+
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')OR(hasRole('USUARIO')AND #id==authentication.principal.id)")
     public ResponseEntity<UsuarioResponseDto>create(@RequestBody @Valid UsuarioCreateDto createDto){
         UsuarioResponseDto responseDto=usuarioService.salvar(createDto);
         URI location = URI.create("/usuarios/" + responseDto.getId());
@@ -47,6 +50,7 @@ public class UsuarioController {
 
     })
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')OR(hasRole('USUARIO')AND #id==authentication.principal.id)")
     public ResponseEntity<UsuarioResponseDto>getById(@PathVariable Long id){
         UsuarioResponseDto responseDto=usuarioService.buscarPorId(id);
         return ResponseEntity.ok(responseDto);
@@ -61,6 +65,7 @@ public class UsuarioController {
 
     })
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN') OR hasRole('USUARIO')")
     public ResponseEntity<List<UsuarioResponseDto>>getAll(){
         List<UsuarioResponseDto>responseDtos=usuarioService.buscarTodos();
         return ResponseEntity.ok(responseDtos);
@@ -76,6 +81,7 @@ public class UsuarioController {
 
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void>deletar(@PathVariable Long id){
         usuarioService.deletar(id);
         return ResponseEntity.noContent().build();
@@ -92,6 +98,7 @@ public class UsuarioController {
     })
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USUARIO') and #id == authentication.principal.id")
     public ResponseEntity<UsuarioResponseDto>editarUsuario(@PathVariable Long id, @RequestBody @Valid UsuarioCreateDto createDto){
         UsuarioResponseDto usuarioResponseDto=usuarioService.editarUsuario(id,createDto);
         return ResponseEntity.ok(usuarioResponseDto);

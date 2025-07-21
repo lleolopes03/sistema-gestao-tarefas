@@ -4,10 +4,12 @@ import com.leandro.sistema_gestao_tarefas.Dtos.Mapper.TarefaMapper;
 import com.leandro.sistema_gestao_tarefas.Dtos.TarefaCreateDto;
 import com.leandro.sistema_gestao_tarefas.Dtos.TarefaResponseDto;
 import com.leandro.sistema_gestao_tarefas.exception.BusinessException;
+import com.leandro.sistema_gestao_tarefas.jwt.JwtUserDetails;
 import com.leandro.sistema_gestao_tarefas.model.Enums.StatusTarefa;
 import com.leandro.sistema_gestao_tarefas.model.Tarefa;
 import com.leandro.sistema_gestao_tarefas.repositories.TarefaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -72,5 +74,14 @@ public class TarefaService {
 
         Tarefa atualizada = tarefaRepository.save(tarefa);
         return TarefaMapper.toDto(atualizada);
+    }
+    public boolean isDonoDaTarefa(Long id) {
+        Tarefa tarefa = tarefaRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Tarefa não encontrada"));
+
+        Long idUsuarioAutenticado = ((JwtUserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getId();
+
+        return tarefa.getUsuario().getId().equals(idUsuarioAutenticado);
     }
 }
